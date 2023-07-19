@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="ErrorOr" Version="1.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarPool.Common\CarPool.Common.csproj" />
+    <ProjectReference Include="..\CarPool.Domain\CarPool.Domain.csproj" />
+    <ProjectReference Include="..\CarPool.Application\CarPool.Application.csproj" />
+    <ProjectReference Include="..\CarPool.Infrastructure\CarPool.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ViewModels\" />
+    <None Remove="ViewModels\Users\" />
+    <None Remove="Mappings\" />
+    <None Remove="Http\" />
+    <None Remove="ViewModels\Trips\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\Users\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Http\" />
+    <Folder Include="ViewModels\Trips\" />
+  </ItemGroup>
+</Project>
