@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using CarPool.Common;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace CarPool.Infrastructure.Identity;
 
 public class ApplicationUser : IdentityUser
 {
     public const string FullNameClaimType = "user:fullname";
+    public const string IdClaimType = "user:id";
 
     public string Name { get; set; } = string.Empty;
     public bool IsActive { get; set; } = false;

@@ -15,12 +15,12 @@ public interface IEntityRepository<T, TId> : IReadRepository<T>, IWriteRepositor
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    T Find(TId id);
+    T? Find(TId id);
 
     /// <summary>
     /// Asynchronously finds an entity from data store.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<T> FindAsync(TId id);
+    Task<T?> FindAsync(TId id);
 }

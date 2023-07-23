@@ -35,5 +35,4 @@ public class ApplicationDbContext : DbContext
     {
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor, _publishDomainEventsInterceptor);
     }
-
 }

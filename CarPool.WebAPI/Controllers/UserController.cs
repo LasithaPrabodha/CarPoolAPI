@@ -1,11 +1,9 @@
-﻿using System;
-using AutoMapper;
-using CarPool.Application.Contracts;
+﻿
 using CarPool.Application.Users.Commands;
 using CarPool.Common;
 using CarPool.WebAPI.ViewModels;
+using MapsterMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarPool.WebAPI.Controllers;
@@ -24,9 +22,9 @@ public class UserController : ControllerBase
 
     [Route("Register")]
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterUserViewModel createUserModel)
+    public async Task<IActionResult> Register(RegisterUserViewModel viewModel)
     {
-        Result result = await _mediator.Send(_mapper.Map<RegisterUserCommand>(createUserModel));
+        Result result = await _mediator.Send(_mapper.Map<RegisterUserCommand>(viewModel));
 
         return result.Failed ? Problem(result.MessageWithErrors) : Ok();
     }

@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarPool.WebAPI.ViewModels;
 
-public class Vehicle
+public class VehicleViewModel
 {
 
     [Required(ErrorMessage = "Field {0} is required")]
-    [MinLength(20, ErrorMessage = "Field {0} must be at least {1} characters long")]
+    [MaxLength(20, ErrorMessage = "Field {0} must be at least {1} characters long")]
     public string Make { get; set; }
 
     [Required(ErrorMessage = "Field {0} is required")]
-    [MinLength(20, ErrorMessage = "Field {0} must be at least {1} characters long")]
+    [MaxLength(20, ErrorMessage = "Field {0} must be at least {1} characters long")]
     public string Model { get; set; }
 
     [Required(ErrorMessage = "Field {0} is required")]
@@ -19,11 +19,11 @@ public class Vehicle
     public int Year { get; set; }
 
     [Required(ErrorMessage = "Field {0} is required")]
-    [MinLength(20, ErrorMessage = "Field {0} must be at least {1} characters long")]
+    [MaxLength(20, ErrorMessage = "Field {0} must be at least {1} characters long")]
     public string Colour { get; set; }
 
     [Required(ErrorMessage = "Field {0} is required")]
-    [MinLength(7, ErrorMessage = "Field {0} must be at least {1} characters long")]
-    public string License_Plate { get; set; }
+    [MaxLength(7, ErrorMessage = "Field {0} must be at least {1} characters long")]
+    public string LicensePlate { get; set; }
 }
 

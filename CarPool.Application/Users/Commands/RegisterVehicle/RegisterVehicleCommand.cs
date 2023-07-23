@@ -16,17 +16,17 @@ public class RegisterVehicleCommandHandler : IRequestHandler<RegisterVehicleComm
 {
 
     private readonly IUserRepository _userRepository;
-    private readonly IAuthenticatedUserService _authenticatedUserService;
+    private readonly IAuthenticatedUserService _user;
 
     public RegisterVehicleCommandHandler(IUserRepository userRepository, IAuthenticatedUserService authenticatedUserService)
     {
         _userRepository = userRepository;
-        _authenticatedUserService = authenticatedUserService;
+        _user = authenticatedUserService;
     }
 
     public async Task<Result> Handle(RegisterVehicleCommand request, CancellationToken cancellationToken)
     {
-        var userId = _authenticatedUserService.UserId;
+        var userId = _user.UserId;
         var user = await _userRepository.GetSingleAsync(d => d.Id.ToString() == userId);
 
         var vehicle = new Vehicle(

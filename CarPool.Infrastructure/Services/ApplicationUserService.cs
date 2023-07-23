@@ -1,6 +1,5 @@
 ﻿using System.Linq.Dynamic.Core;
 using System.Transactions;
-using AutoMapper;
 using CarPool.Application;
 using CarPool.Application.DTOs;
 using CarPool.Application.Contracts;
@@ -12,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MapsterMapper;
+using Mapster;
+using CarPool.Domain.Common;
 
 namespace CarPool.Infrastructure.Services;
 
@@ -146,7 +148,7 @@ internal class ApplicationUserService : IApplicationUserService
         return serviceResult;
     }
 
-    public async Task<Result> CreateUser(User user, string password, List<string> roles, bool isActive)
+    public async Task<Result> CreateUser(UserDTO user, string password, List<string> roles, bool isActive)
     {
         var serviceResult = new Result().Successful();
         try
@@ -228,13 +230,22 @@ internal class ApplicationUserService : IApplicationUserService
         return serviceResult;
     }
 
-    public async Task<Result<User>> GetUser(string id)
+    public async Task<Result<UserDTO?>> GetUser(string userId)
     {
-        var serviceResult = new Result<User>();
+        var serviceResult = new Result<UserDTO?>();
         try
         {
-            serviceResult.Data = await _mapper.ProjectTo<User>(GetUsersWithRoles()).FirstOrDefaultAsync(u => u.Id.ToString() == id);
-            serviceResult.Successful();
+            var applicationUser = await GetUsersWithRoles().FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (applicationUser is null)
+            {
+                throw new UserNotFoundException(userId);
+            }
+            else
+            {
+                serviceResult.Successful();
+                serviceResult.Data = _mapper.Map<UserDTO>(applicationUser);
+            }
         }
         catch (Exception ex)
         {

@@ -43,25 +43,25 @@ public interface IReadRepository<T>
     /// </summary>
     /// <param name="predicate">Condition</param>
     /// <returns>Entity</returns>
-    T GetFirst(Expression<Func<T, bool>> predicate);
+    T? GetFirst(Expression<Func<T, bool>> predicate);
 
     /// <summary>
     /// Asynchronously retrieves the first entity from the data store that satisfies the given predicate
     /// </summary>
     /// <param name="predicate">Condition</param>
     /// <returns>Entity</returns>
-    Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate);
+    Task<T?> GetFirstAsync(Expression<Func<T, bool>> predicate);
 
     /// <summary>
     /// Retrieves a single entity from data store that satisfies the given predicate
     /// </summary>
     /// <param name="predicate">Condition</param>
-    T GetSingle(Expression<Func<T, bool>> predicate);
+    T? GetSingle(Expression<Func<T, bool>> predicate);
 
     /// <summary>
     /// Asynchronously retrieves a single entity from data store that satisfies the given condition
     /// </summary>
     /// <param name="predicate">Condition</param>
     /// <returns>Entity</returns>
-    Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate);
+    Task<T?> GetSingleAsync(Expression<Func<T, bool>> predicate);
 }

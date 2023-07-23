@@ -1,9 +1,9 @@
 ﻿using System;
-using AutoMapper;
 using CarPool.Application.Contracts;
 using CarPool.Application.DTOs;
 using CarPool.Common;
 using CarPool.WebAPI.ViewModels;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarPool.WebAPI.Controllers;
@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
 
         return result.Succeeded
             ? Ok(_mapper.Map<AuthResponseViewModel>(result.Data))
-            : (IActionResult)Problem(statusCode: StatusCodes.Status400BadRequest, title: result.Message);
+            : (IActionResult)Problem(statusCode: StatusCodes.Status400BadRequest, title: result.MessageWithErrors);
     }
 }
 

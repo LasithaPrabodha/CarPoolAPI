@@ -1,6 +1,8 @@
 ﻿using CarPool.Application.Contracts;
+using CarPool.Application.DTOs;
 using CarPool.Common;
 using CarPool.Domain.Users;
+using MapsterMapper;
 using MediatR;
 
 namespace CarPool.Application.Users.Commands;
@@ -13,24 +15,25 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
 {
     private readonly IApplicationUserService _applicationUserService;
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public RegisterUserCommandHandler(IApplicationUserService applicationUserService, IUserRepository userRepository)
+    public RegisterUserCommandHandler(IApplicationUserService applicationUserService, IUserRepository userRepository, IMapper mapper)
     {
         _applicationUserService = applicationUserService;
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var result = new Result();
-        var user = User.Create(request.Username, request.Name, request.Email);
-
-        var userCreateResult = await _applicationUserService.CreateUser(user, request.Password, request.Roles, true);
+        var userCreateResult = await _applicationUserService.CreateUser(_mapper.Map<UserDTO>(request), request.Password, request.Roles, true);
 
         if (userCreateResult.Failed)
-        {
             return result.Failed().WithMessage(userCreateResult.MessageWithErrors);
-        }
+        
+
+        var user = User.Create(request.Username, request.Name, request.Email);
 
         _userRepository.Add(user);
         await _userRepository.SaveChangesAsync(cancellationToken);

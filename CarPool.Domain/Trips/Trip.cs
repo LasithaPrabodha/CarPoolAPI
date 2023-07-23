@@ -13,7 +13,7 @@ public class Trip : AggregateRoot<TripId, Guid>, IAggregateRoot
     public int AvailableSeats { get; private set; }
     public double PricePerSeat { get; private set; }
     public int? ViewedByCount { get; private set; }
-    public Vehicle? Vehicle { get; private set; }
+    public Vehicle Vehicle { get; private set; }
 
     private List<Booking> _bookings = new();
     public IReadOnlyList<Booking> Bookings { get { return _bookings.AsReadOnly(); } private set { _bookings = value.ToList(); } }
@@ -24,7 +24,7 @@ public class Trip : AggregateRoot<TripId, Guid>, IAggregateRoot
     private Trip() { }
 
     private Trip(TripId tripId, UserId driverId, Address origin, Address destination, DateTime departTime,
-        int availableSeats, double pricePerSeat, Vehicle? vehicle = null)
+        int availableSeats, double pricePerSeat, Vehicle vehicle)
         :base (tripId)
     {
         DriverId = driverId;
@@ -38,7 +38,7 @@ public class Trip : AggregateRoot<TripId, Guid>, IAggregateRoot
     }
 
     public static Trip Create(UserId driverId, Address origin, Address destination, DateTime departTime,
-        int availableSeats, double pricePerSeat, Vehicle? vehicle = null)
+        int availableSeats, double pricePerSeat, Vehicle vehicle)
     {
         return new(
             TripId.CreateUnique(),

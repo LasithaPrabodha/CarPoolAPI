@@ -13,12 +13,12 @@ public record AddDriverLicenseCommand(string DriverLicenseNumber, DateTime Drive
 public class AddDriverLicenseCommandHandler : IRequestHandler<AddDriverLicenseCommand, Result>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IAuthenticatedUserService _authenticatedUserService;
+    private readonly IAuthenticatedUserService _user;
 
     public AddDriverLicenseCommandHandler(IUserRepository userRepository, IAuthenticatedUserService authenticatedUserService)
     {
         _userRepository = userRepository;
-        _authenticatedUserService = authenticatedUserService;
+        _user = authenticatedUserService;
     }
 
     public async Task<Result> Handle(AddDriverLicenseCommand request, CancellationToken cancellationToken)
@@ -27,8 +27,9 @@ public class AddDriverLicenseCommandHandler : IRequestHandler<AddDriverLicenseCo
             driverLicenseNumber: request.DriverLicenseNumber,
             driverLicenseExpiryDate: request.DriverLicenseExpiryDate
         );
-        var userId = _authenticatedUserService.UserId;
+        var userId = _user.UserId;
         var user = await _userRepository.GetSingleAsync(d => d.Id.ToString() == userId);
+        
         user.DriverProfile?.UpdateDriverLicense(driverLicense);
 
         _userRepository.Update(user);

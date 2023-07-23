@@ -1,5 +1,4 @@
-﻿using AutoMapper.Extensions.ExpressionMapping;
-using CarPool.Infrastructure.Services;
+﻿using CarPool.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CarPool.Application.Models;
-using CarPool.Infrastructure.Mappings;
+using Mapster;
+using System.Reflection;
+using MapsterMapper;
 
 namespace CarPool.Infrastructure.Extensions;
 
@@ -25,12 +26,14 @@ public static class ServiceCollectionExtensions
         services.AddRepositories();
         services.AddIdentity();
         services.AddAuthentication(configuration);
-        services.AddAutoMapper(config =>
-        {
-            config.ShouldMapMethod = (m => false);
-            config.AddExpressionMapping();
-            config.AddProfile<UserProfile>();
-        });
+        
+        services.Configure<IdentityOptions>(opts => opts.Password.RequireLowercase = true);
+
+        var config = TypeAdapterConfig.GlobalSettings;
+        config.Scan(Assembly.GetExecutingAssembly());
+
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
     }
 
     public static void AddSharedServices(this IServiceCollection services)
@@ -71,8 +74,7 @@ public static class ServiceCollectionExtensions
         })
             .AddRoleManager<RoleManager<ApplicationRole>>()
             .AddEntityFrameworkStores<IdentityDbContext>()
-            .AddDefaultTokenProviders()
-            .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
+            .AddDefaultTokenProviders();
 
         var passwordOptions = new PasswordOptions()
         {

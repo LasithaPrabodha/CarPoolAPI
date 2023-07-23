@@ -15,8 +15,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="ErrorOr" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,19 +22,5 @@
     <ProjectReference Include="..\CarPool.Domain\CarPool.Domain.csproj" />
     <ProjectReference Include="..\CarPool.Application\CarPool.Application.csproj" />
     <ProjectReference Include="..\CarPool.Infrastructure\CarPool.Infrastructure.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="ViewModels\" />
-    <None Remove="ViewModels\Users\" />
-    <None Remove="Mappings\" />
-    <None Remove="Http\" />
-    <None Remove="ViewModels\Trips\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-    <Folder Include="ViewModels\Users\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Http\" />
-    <Folder Include="ViewModels\Trips\" />
   </ItemGroup>
 </Project>

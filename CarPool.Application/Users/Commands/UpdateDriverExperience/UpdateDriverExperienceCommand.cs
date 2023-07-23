@@ -5,24 +5,24 @@ using MediatR;
 
 namespace CarPool.Application.Users.Commands.UpdateDriverExperience;
 
-public record UpdateDriverExperienceCommand(Guid DriverId, int TotalKmsShared, int TotalPassengersDriven) : IRequest<Result>
+public record UpdateDriverExperienceCommand(int TotalKmsShared, int TotalPassengersDriven) : IRequest<Result>
 {
 }
 
 public class UpdateDriverExperienceCommandHandler : IRequestHandler<UpdateDriverExperienceCommand, Result>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IAuthenticatedUserService _authenticatedUserService;
+    private readonly IAuthenticatedUserService _user;
 
     public UpdateDriverExperienceCommandHandler(IUserRepository userRepository, IAuthenticatedUserService authenticatedUserService)
     {
         _userRepository = userRepository;
-        _authenticatedUserService = authenticatedUserService;
+        _user = authenticatedUserService;
     }
 
     public async Task<Result> Handle(UpdateDriverExperienceCommand request, CancellationToken cancellationToken)
     {
-        var userId = _authenticatedUserService.UserId;
+        var userId = _user.UserId;
         var user = await _userRepository.GetSingleAsync(d => d.Id.ToString() == userId);
 
         user.DriverProfile?.UpdateExperience(

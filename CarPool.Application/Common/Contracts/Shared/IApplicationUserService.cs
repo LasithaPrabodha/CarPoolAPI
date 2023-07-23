@@ -1,5 +1,4 @@
-﻿
-using CarPool.Application.DTOs;
+﻿using CarPool.Application.DTOs;
 using CarPool.Common;
 using CarPool.Domain.Users;
 
@@ -15,7 +14,7 @@ public interface IApplicationUserService
     /// <param name="roles"></param>
     /// <param name="isActive"></param>
     /// <returns></returns>
-    Task<Result> CreateUser(User user, string password, List<string> roles, bool isActive);
+    Task<Result> CreateUser(UserDTO user, string password, List<string> roles, bool isActive);
 
     /// <summary>
     /// Activates the application user with username <paramref name="username"/>
@@ -59,7 +58,7 @@ public interface IApplicationUserService
     /// </summary>
     /// <param name="id">the user ID</param>
     /// <returns> a <see cref="User"/></returns>
-    Task<Result<User>> GetUser(string id);
+    Task<Result<UserDTO?>> GetUser(string id);
 
     /// <summary>
     /// Changes a user's password

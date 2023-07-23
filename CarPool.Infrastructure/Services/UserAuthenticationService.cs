@@ -10,7 +10,8 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CarPool.Application.Models;
-using Microsoft.Extensions.Options; 
+using Microsoft.Extensions.Options;
+using CarPool.Application.Common.Constants;
 
 namespace CarPool.Infrastructure.Services;
 
@@ -101,7 +102,7 @@ public class UserAuthenticationService : IUserAuthenticationService
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("uid", user.Id)
+                new Claim(CustomClaimTypes.Uid, user.Id)
             }
         .Union(userClaims)
         .Union(roleClaims);
@@ -111,11 +112,12 @@ public class UserAuthenticationService : IUserAuthenticationService
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
         var jwtSecurityToken = new JwtSecurityToken(
-        issuer: _jwtSettings.Issuer,
-        audience: _jwtSettings.Audience,
-           claims: claims,
-        expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
-           signingCredentials: signingCredentials);
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
+            signingCredentials: signingCredentials);
+
         return jwtSecurityToken;
     }
 }

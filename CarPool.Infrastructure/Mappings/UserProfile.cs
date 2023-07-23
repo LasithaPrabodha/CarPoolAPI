@@ -1,30 +1,25 @@
 ﻿using System;
-using AutoMapper;
+using CarPool.Application.DTOs;
 using CarPool.Common;
-using CarPool.Domain.Users;
 using CarPool.Domain.Users.Enums;
 using CarPool.Infrastructure.Identity;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarPool.Infrastructure.Mappings;
 
-internal class UserProfile : Profile
+internal class UserProfile : IRegister
 {
-    public UserProfile()
+    public void Register(TypeAdapterConfig config)
     {
-        CreateMap<ApplicationUserRole, Roles>()
-            .ConvertUsing(r => r.Role.Name.ToEnum<Roles>());
 
-        CreateMap<User, ApplicationUser>()
-            .ForMember(target => target.Roles, opt => opt.Ignore())
-            .ForMember(target => target.Id, opt => opt.MapFrom(source => source.Id.Value));
+        config.NewConfig<ApplicationUserRole, Roles>()
+            .Map(dest => dest, src => src.Role.Name.ToEnum<Roles>());
 
-        CreateMap<ApplicationUser, User>();
+        config.NewConfig<UserDTO, ApplicationUser>();
 
-        //CreateMap<ApplicationUser, UserReadModel>();
-
-        CreateMap<IdentityError, ResultError>()
-            .ForMember(target => target.Error, opt => opt.MapFrom(source => source.Description));
+        config.NewConfig<IdentityError, ResultError>()
+            .Map(dest => dest.Error, src => src.Description);
     }
 }
 

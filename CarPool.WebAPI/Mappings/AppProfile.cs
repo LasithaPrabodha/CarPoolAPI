@@ -1,26 +1,17 @@
-﻿using AutoMapper;
-using CarPool.Application.DTOs;
-using CarPool.Application.Trips.Commands;
-using CarPool.Application.Users.Commands;
+﻿using CarPool.Application.Users.Commands;
 using CarPool.WebAPI.ViewModels;
+using Mapster;
 
 namespace CarPool.WebAPI.Mappings;
 
-public class AppProfile : Profile
+public class AppProfile : IRegister
 {
-    public AppProfile()
+    public void Register(TypeAdapterConfig config)
     {
-        CreateMap<RegisterUserViewModel, RegisterUserCommand>()
-            .ForMember(target => target.Roles, opt => opt.MapFrom(m => m.Roles.Select(r => r.ToString())));
 
-        CreateMap<CreateTripViewModel, CreateTripCommand>()
-            .ForMember(target => target.AvailableSeats, opt => opt.MapFrom(m => m.Available_Seats))
-            .ForMember(target => target.PricePerSeat, opt => opt.MapFrom(m => m.Price_Per_Seat))
-            .ForMember(target => target.DepartTime, opt => opt.MapFrom(m => m.Depart_Time));
+        config.NewConfig<RegisterUserViewModel, RegisterUserCommand>()
+            .Map(dest => dest.Roles, src => src.Roles.Select(r => r.ToString()));
 
-        CreateMap<LoginViewModel, LoginRequestDTO>();
-
-        CreateMap<AuthResponseDTO, AuthResponseViewModel>();
     }
 }
 

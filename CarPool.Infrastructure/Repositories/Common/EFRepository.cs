@@ -77,22 +77,22 @@ internal abstract class EFRepository<TEntity, TId> : IAggregateRepository<TEntit
         return GetEntities().Where(predicate);
     }
 
-    public TEntity GetFirst(Expression<Func<TEntity, bool>> predicate)
+    public TEntity? GetFirst(Expression<Func<TEntity, bool>> predicate)
     {
         return GetEntities().FirstOrDefault(predicate);
     }
 
-    public async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity?> GetFirstAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return await GetEntities().FirstOrDefaultAsync(predicate);
     }
 
-    public TEntity GetSingle(Expression<Func<TEntity, bool>> predicate)
+    public TEntity? GetSingle(Expression<Func<TEntity, bool>> predicate)
     {
         return GetEntities().SingleOrDefault(predicate);
     }
 
-    public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity?> GetSingleAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return await GetEntities().SingleOrDefaultAsync(predicate);
     }
@@ -112,21 +112,19 @@ internal abstract class EFRepository<TEntity, TId> : IAggregateRepository<TEntit
         }
     }
 
-    public TEntity Find(TId id)
+    public TEntity? Find(TId id)
     {
         return _entities.Find(id);
     }
 
-    public async Task<TEntity> FindAsync(TId id)
+    public async Task<TEntity?> FindAsync(TId id)
     {
         return await _entities.FindAsync(id);
     }
 
     private IQueryable<TEntity> GetEntities(bool asNoTracking = true)
     {
-        if (asNoTracking)
-            return _entities.AsNoTracking();
-        return _entities;
+        return asNoTracking ? _entities.AsNoTracking() : _entities;
     }
 
 

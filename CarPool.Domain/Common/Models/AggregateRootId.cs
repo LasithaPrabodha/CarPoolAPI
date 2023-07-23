@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+
 namespace CarPool.Domain.Common;
 
 public abstract class AggregateRootId<TId> : ValueObject

@@ -42,7 +42,6 @@ public class TripConfigurations : IEntityTypeConfiguration<Trip>
         builder.OwnsOne(t => t.Destination);
 
         builder.OwnsOne(t => t.Vehicle);
-        builder.Navigation(t => t.Vehicle).IsRequired(false);
 
     }
 
