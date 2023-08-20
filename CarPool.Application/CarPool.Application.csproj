@@ -16,4 +16,20 @@
     <ProjectReference Include="..\CarPool.Common\CarPool.Common.csproj" />
     <ProjectReference Include="..\CarPool.Domain\CarPool.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Trips\Queries\GetAllTrips\" />
+    <None Remove="Trips\Commands\AddBooking\" />
+    <None Remove="Trips\Commands\AddReview\" />
+    <None Remove="Trips\Commands\AcceptBooking\" />
+    <None Remove="Trips\Commands\DeclineBooking\" />
+    <None Remove="Trips\Commands\CreateMessage\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Trips\Queries\GetAllTrips\" />
+    <Folder Include="Trips\Commands\AddBooking\" />
+    <Folder Include="Trips\Commands\AddReview\" />
+    <Folder Include="Trips\Commands\AcceptBooking\" />
+    <Folder Include="Trips\Commands\DeclineBooking\" />
+    <Folder Include="Trips\Commands\CreateMessage\" />
+  </ItemGroup>
 </Project>

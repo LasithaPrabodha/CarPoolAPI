@@ -1,5 +1,5 @@
-﻿using CarPool.Domain.Common;
-using CarPool.Domain.Common.Models;
+﻿using System;
+using CarPool.Domain.Common;
 using CarPool.Domain.Users; 
 
 namespace CarPool.Domain.Trips;
@@ -60,7 +60,7 @@ public class Trip : AggregateRoot<TripId, Guid>, IAggregateRoot
         ViewedByCount += count;
     }
 
-    public void AddBooking(UserId userId, int requiredSeats, string? description)
+    public BookingId AddBooking(UserId userId, int requiredSeats, string? description)
     {
 
         if (AvailableSeats == 0)
@@ -71,12 +71,16 @@ public class Trip : AggregateRoot<TripId, Guid>, IAggregateRoot
         AvailableSeats -= requiredSeats;
 
         _bookings.Add(booking);
+
+        return booking.Id;
     }
 
-    public void AddStop(Address address)
+    public StopId AddStop(Address address)
     {
         var stop = Stop.Create(address);
         _stops.Add(stop);
+
+        return stop.Id;
     }
 }
 

@@ -3,6 +3,7 @@ using CarPool.Application.DTOs;
 using CarPool.Application.Trips.Commands;
 using CarPool.Application.Trips.Queries;
 using CarPool.Common;
+using CarPool.Domain.Trips;
 using CarPool.WebAPI.ViewModels;
 using MapsterMapper;
 using MediatR;
@@ -32,12 +33,22 @@ public class TripController : ControllerBase
         return result.Failed ? Problem(result.MessageWithErrors) : Ok();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Create([FromQuery] TripsRequestViewModel viewModel)
+    {
+        Result<PagedResult<TripResponseDTO>> result = await _mediator.Send(new GetAllTripsQuery(viewModel.Page, viewModel.PageSize));
+
+        return result.Failed ? Problem(result.Exception.Message) : Ok(_mapper.Map<PagedResult<TripResponseViewModel>>(result.Data));
+    }
+
     [Route("{id:guid}")]
-    [HttpPost]
+    [HttpGet]
     public async Task<IActionResult> Create(Guid id)
     {
-        Result<TripResponseDTO> result = await _mediator.Send(new GetTripQuery(id));
+        Result<TripResponseDTO> result = await _mediator.Send(new GetTripQuery(TripId.Create(id)));
 
         return result.Failed ? Problem(result.Exception.Message) : Ok(_mapper.Map<TripResponseViewModel>(result.Data));
     }
+
+
 }

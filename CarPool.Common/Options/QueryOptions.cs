@@ -1,4 +1,4 @@
-﻿namespace CarPool.Common.Options;
+﻿namespace CarPool.Common;
 
 public class QueryOptions
 {

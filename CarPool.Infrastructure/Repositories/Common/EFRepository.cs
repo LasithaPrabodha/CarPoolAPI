@@ -67,9 +67,9 @@ internal abstract class EFRepository<TEntity, TId> : IAggregateRepository<TEntit
         return _entities.AnyAsync(predicate);
     }
 
-    public IQueryable<TEntity> GetAll()
+    public IQueryable<TEntity> GetAll(bool asNoTracking = true)
     {
-        return GetEntities();
+        return GetEntities(asNoTracking);
     }
 
     public IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate)

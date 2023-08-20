@@ -1,5 +1,4 @@
 ﻿using CarPool.Domain.Common;
-using CarPool.Domain.Common.Models;
 using CarPool.Domain.Users.Entities;
 using CarPool.Domain.Users.Enums;
 

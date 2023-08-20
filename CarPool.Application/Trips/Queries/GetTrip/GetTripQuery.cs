@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CarPool.Application.Trips.Queries;
 
-public record GetTripQuery(Guid TripId) : IRequest<Result<TripResponseDTO>>
+public record GetTripQuery(TripId TripId) : IRequest<Result<TripResponseDTO>>
 {
 }
 
@@ -28,10 +28,10 @@ public class GetTripQueryHandler : IRequestHandler<GetTripQuery, Result<TripResp
     public async Task<Result<TripResponseDTO>> Handle(GetTripQuery request, CancellationToken cancellationToken)
     {
         var result = new Result<TripResponseDTO>();
-        var trip = await _tripRepository.GetSingleAsync(t => t.Id == TripId.Create(request.TripId));
+        var trip = await _tripRepository.GetSingleAsync(t => t.Id == request.TripId);
 
         if (trip is null)
-            return result.Failed().WithException(new TripNotFoundException(request.TripId));
+            return result.Failed().WithException(new TripNotFoundException(request.TripId.Value));
 
         var tripDTO = _mapper.Map<TripResponseDTO>(trip);
         result.Data = tripDTO;

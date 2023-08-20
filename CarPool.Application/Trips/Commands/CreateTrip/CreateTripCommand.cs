@@ -1,4 +1,5 @@
-﻿using CarPool.Application.Contracts;
+﻿using System;
+using CarPool.Application.Contracts;
 using CarPool.Common;
 using CarPool.Domain.Common;
 using CarPool.Domain.Trips;
@@ -13,7 +14,7 @@ public record CreateTripCommand(
     DateTime DepartTime,
     int AvailableSeats,
     double PricePerSeat,
-    Vehicle Vehicle) :IRequest<Result>
+    Vehicle Vehicle) : IRequest<Result>
 {
 
 }
@@ -38,7 +39,7 @@ public class CreateTripCommandHandler : IRequestHandler<CreateTripCommand, Resul
         var userId = _user.UserId;
         var user = await _applicationUserService.GetUser(userId);
 
-        
+
         var trip = Trip.Create(
             driverId: UserId.Create(Guid.Parse(user.Data!.Id)),
             origin: request.Origin,

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace CarPool.Domain.Common.Models;
+namespace CarPool.Domain.Common;
 
 public abstract class AggregateRoot<TId, TIdType> : Entity<TId> where TId : AggregateRootId<TIdType>
 {

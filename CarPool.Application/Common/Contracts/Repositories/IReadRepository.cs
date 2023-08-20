@@ -29,7 +29,7 @@ public interface IReadRepository<T>
     /// Retrieves all entities from the data store as <see cref="IQueryable{T}"/>
     /// </summary>
     /// <returns>Query</returns>
-    IQueryable<T> GetAll();
+    IQueryable<T> GetAll(bool asNoTracking = true);
 
     /// <summary>
     /// Retrieves all entities that satisfy the given condition from the data store as <see cref="IQueryable{T}"/> 
