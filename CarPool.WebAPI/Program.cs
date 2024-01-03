@@ -10,12 +10,6 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Retrieve the connection string
-string connectionString = builder.Configuration.GetConnectionString("AppConfig");
-
-// Load configuration from Azure App Configuration
-builder.Configuration.AddAzureAppConfiguration(connectionString);
-
 builder.Services.AddControllers();
 builder.Services.AddApplicationLayer();
 builder.Services.AddInfrastructureLayer(builder.Configuration);
@@ -60,11 +54,11 @@ builder.Services.AddSwaggerGen(setup =>
 
 var app = builder.Build();
 
-// if (app.Environment.IsDevelopment())
-// {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
-// }
+}
 
 app.UseHttpsRedirection();
 
