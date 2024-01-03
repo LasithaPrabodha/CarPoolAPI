@@ -53,8 +53,8 @@ public static class ServiceCollectionExtensions
         }
         else
         {
-            services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection")));
+            services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(configuration["IdentityConnection"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration["ApplicationConnection"]));
         }
     }
 
