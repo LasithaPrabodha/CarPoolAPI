@@ -14,14 +14,9 @@ public class YearRangeAttribute : ValidationAttribute
         _maxYear = DateTime.Now.Year;
     }
 
-    public override bool IsValid(object value)
+    public override bool IsValid(object? value)
     {
-        if (value is int year)
-        {
-            return year >= _minYear && year <= _maxYear;
-        }
-
-        return false;
+        return value is int year && year >= _minYear && year <= _maxYear;
     }
 
     public override string FormatErrorMessage(string name)

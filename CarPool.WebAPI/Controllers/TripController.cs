@@ -7,12 +7,13 @@ using CarPool.Domain.Trips;
 using CarPool.WebAPI.ViewModels;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarPool.WebAPI.Controllers;
 
 [Route("Trips")]
-//[Authorize]
+[Authorize]
 public class TripController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -34,7 +35,7 @@ public class TripController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Create([FromQuery] TripsRequestViewModel viewModel)
+    public async Task<IActionResult> Get([FromQuery] TripsRequestViewModel viewModel)
     {
         Result<PagedResult<TripResponseDTO>> result = await _mediator.Send(new GetAllTripsQuery(viewModel.Page, viewModel.PageSize));
 
@@ -43,7 +44,7 @@ public class TripController : ControllerBase
 
     [Route("{id:guid}")]
     [HttpGet]
-    public async Task<IActionResult> Create(Guid id)
+    public async Task<IActionResult> Get(Guid id)
     {
         Result<TripResponseDTO> result = await _mediator.Send(new GetTripQuery(TripId.Create(id)));
 
